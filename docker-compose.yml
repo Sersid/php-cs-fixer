@@ -1,0 +1,12 @@
+version: '3'
+services:
+  php-cs-fixer-fpm:
+    build:
+      context: docker/php-fpm
+    container_name: php-fpm
+    volumes:
+      - ./:/var/www
+    restart: always
+    environment:
+      XDEBUG_CONFIG: "remote_host=192.168.100.1 remote_enable=1"
+      PHP_IDE_CONFIG: "serverName=Docker"

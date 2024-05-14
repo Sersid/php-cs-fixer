@@ -3,7 +3,7 @@ services:
   php-cs-fixer-fpm:
     build:
       context: docker/php-fpm
-    container_name: php-fpm
+    container_name: php-cs-fixer-fpm
     volumes:
       - ./:/var/www
     restart: always

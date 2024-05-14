@@ -11,6 +11,8 @@ use SplFileInfo;
 
 abstract class FixerTestCase extends TestCase
 {
+    private FixerInterface $fixer;
+
     abstract protected function getFixer(): FixerInterface;
 
     abstract public static function dataProvider(): iterable;
@@ -19,6 +21,12 @@ abstract class FixerTestCase extends TestCase
     {
         parent::setUp();
         Tokens::clearCache();
+        $this->fixer = $this->getFixer();
+    }
+
+    public function testName(): void
+    {
+        self::assertMatchesRegularExpression('/^[A-Z][a-zA-Z0-9]*\/[a-z][a-z0-9_]*$/', $this->fixer->getName());
     }
 
     #[DataProvider('dataProvider')]
@@ -26,8 +34,7 @@ abstract class FixerTestCase extends TestCase
     {
         $tokens = Tokens::fromCode($input);
 
-        $fixer = $this->getFixer();
-        $fixer->fix(new SplFileInfo(__FILE__), $tokens);
+        $this->fixer->fix(new SplFileInfo(__FILE__), $tokens);
 
         self::assertSame($expected !== null, $tokens->isChanged());
         self::assertSame($expected ?? $input, $tokens->generateCode());

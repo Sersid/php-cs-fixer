@@ -51,6 +51,9 @@ final class WhitespaceAfterOpeningShortTagFixerTest extends FixerTestCase
             [
                 '<?',
             ],
+            [
+                '<?=$text?>',
+            ],
         ];
     }
 }

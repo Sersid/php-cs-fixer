@@ -49,7 +49,7 @@ final class WhitespaceAfterOpeningShortTagFixer extends AbstractFixer
                     '<?if($condition) {}'
                 ),
                 new CodeSample(
-                    "<?require __DIR__ . './file.php'; "
+                    "<?require __DIR__ . './file.php';"
                 ),
             ],
         );

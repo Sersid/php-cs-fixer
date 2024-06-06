@@ -80,11 +80,10 @@ abstract class FixerTestCase extends TestCase
     #[TestDox('Risky fixer must have risky description')]
     public function testRiskyFixHasDefinitionHas(): void
     {
-        $fixer = $this->fixer;
-        $definition = $fixer->getDefinition();
+        $definition = $this->fixer->getDefinition();
 
         self::assertTrue(
-            !$fixer->isRisky() || ($fixer->isRisky() && !empty($definition->getRiskyDescription()))
+            !$this->fixer->isRisky() || ($this->fixer->isRisky() && !empty($definition->getRiskyDescription()))
         );
     }
 }

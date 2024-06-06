@@ -53,7 +53,7 @@ abstract class FixerTestCase extends TestCase
     }
 
     #[TestDox('Definition code samples must be completed')]
-    public function testDefinitionCodeSamples(): array
+    public function testDefinitionHasCodeSamples(): array
     {
         $definition = $this->fixer->getDefinition();
 
@@ -66,8 +66,8 @@ abstract class FixerTestCase extends TestCase
      * @param list<CodeSampleInterface> $codeSamples
      */
     #[TestDox('Definition code examples should be fixed')]
-    #[Depends('testDefinitionCodeSamples')]
-    public function testCheckDefinitionCodeSamples(array $codeSamples): void
+    #[Depends('testDefinitionHasCodeSamples')]
+    public function testDefinitionCodeSamples(array $codeSamples): void
     {
         foreach ($codeSamples as $codeSample) {
             $tokens = Tokens::fromCode($codeSample->getCode());
@@ -75,5 +75,16 @@ abstract class FixerTestCase extends TestCase
 
             self::assertTrue($tokens->isChanged());
         }
+    }
+
+    #[TestDox('Risky fixer must have risky description')]
+    public function testRiskyFixHasDefinitionHas(): void
+    {
+        $fixer = $this->fixer;
+        $definition = $fixer->getDefinition();
+
+        self::assertTrue(
+            !$fixer->isRisky() || ($fixer->isRisky() && !empty($definition->getRiskyDescription()))
+        );
     }
 }

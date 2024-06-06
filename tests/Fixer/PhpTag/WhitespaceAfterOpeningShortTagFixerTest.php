@@ -32,6 +32,10 @@ final class WhitespaceAfterOpeningShortTagFixerTest extends FixerTestCase
                 '	<h2><? $APPLICATION->ShowTitle()?></h2>',
             ],
             [
+                "<?require __DIR__ . './file.php'; ",
+                "<? require __DIR__ . './file.php'; ",
+            ],
+            [
                 '					<?if($lpEnabled):?>
                         <h1>Hello</h1>
 					<? else: ?>
@@ -43,6 +47,9 @@ final class WhitespaceAfterOpeningShortTagFixerTest extends FixerTestCase
             ],
             [
                 '<? $tabControl->BeginNextTab();?>',
+            ],
+            [
+                '<?',
             ],
         ];
     }

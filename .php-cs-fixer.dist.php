@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use PhpCsFixer\Config;
+use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
 use Symfony\Component\Finder\Finder;
 
 $finder = (new Finder())
@@ -14,6 +15,7 @@ $finder = (new Finder())
 
 return (new Config())
     ->setFinder($finder)
+    ->setParallelConfig(ParallelConfigFactory::detect())
     ->setRules([
         '@PSR12' => true,
     ])

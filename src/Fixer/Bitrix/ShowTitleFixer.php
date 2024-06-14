@@ -26,7 +26,7 @@ final class ShowTitleFixer extends AbstractFixer
     public function fix(\SplFileInfo $file, Tokens $tokens): void
     {
         foreach ($tokens as $index => $token) {
-            if (!$token->isGivenKind(T_STRING) || strtolower($token->getContent()) !== 'showtitle') {
+            if (!$token->isGivenKind(T_STRING) || $token->getContent() !== 'ShowTitle') {
                 continue;
             }
 
@@ -36,7 +36,7 @@ final class ShowTitleFixer extends AbstractFixer
             }
 
             $applicationIndex = $tokens->getPrevNonWhitespace($objectOperatorIndex);
-            if ($applicationIndex === null || strtolower($tokens[$applicationIndex]->getContent()) !== '$application') {
+            if ($applicationIndex === null || $tokens[$applicationIndex]->getContent() !== '$APPLICATION') {
                 continue;
             }
 

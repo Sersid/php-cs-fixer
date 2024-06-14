@@ -30,17 +30,17 @@ final class ShowTitleFixer extends AbstractFixer
                 continue;
             }
 
-            $objectOperatorIndex = $tokens->getPrevNonWhitespace($index);
+            $objectOperatorIndex = $tokens->getPrevMeaningfulToken($index);
             if ($objectOperatorIndex === null || $tokens[$objectOperatorIndex]->getContent() !== '->') {
                 continue;
             }
 
-            $applicationIndex = $tokens->getPrevNonWhitespace($objectOperatorIndex);
+            $applicationIndex = $tokens->getPrevMeaningfulToken($objectOperatorIndex);
             if ($applicationIndex === null || $tokens[$applicationIndex]->getContent() !== '$APPLICATION') {
                 continue;
             }
 
-            $echoIndex = $tokens->getPrevNonWhitespace($applicationIndex);
+            $echoIndex = $tokens->getPrevMeaningfulToken($applicationIndex);
             if ($echoIndex === null) {
                 continue;
             }

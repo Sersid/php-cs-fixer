@@ -56,5 +56,13 @@ if ($condition) {
         yield [
             '<?php $APPLICATION->ShowTitle() ?>',
         ];
+        yield [
+            '<?php echo $APPLICATION->
+// comment
+ShowTitle() ?>',
+            '<?php $APPLICATION->
+// comment
+ShowTitle() ?>',
+        ];
     }
 }

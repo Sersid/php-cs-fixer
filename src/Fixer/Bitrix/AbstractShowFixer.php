@@ -7,6 +7,7 @@ namespace Samson\PhpCsFixer\Fixer\Bitrix;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Samson\PhpCsFixer\Fixer\AbstractFixer;
+use SplFileInfo;
 
 abstract class AbstractShowFixer extends AbstractFixer
 {
@@ -20,7 +21,7 @@ abstract class AbstractShowFixer extends AbstractFixer
         return false;
     }
 
-    public function fix(\SplFileInfo $file, Tokens $tokens): void
+    public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         $start = 0;
         while (true) {
@@ -41,6 +42,8 @@ abstract class AbstractShowFixer extends AbstractFixer
             $this->doFix($tokens, array_key_first($foundTokens));
         }
     }
+
+    abstract protected static function methodName(): string;
 
     private function doFix(Tokens $tokens, int $variableIndex): void
     {
@@ -71,6 +74,4 @@ abstract class AbstractShowFixer extends AbstractFixer
             $tokens->clearAt($index + 1);
         }
     }
-
-    abstract protected static function methodName(): string;
 }

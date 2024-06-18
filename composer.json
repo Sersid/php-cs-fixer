@@ -31,7 +31,8 @@
   },
   "scripts": {
     "fixer": "php-cs-fixer --config=.php-cs-fixer.dist.php fix",
-    "psalm": "psalm"
+    "psalm": "psalm",
+    "infection": "infection -j$(nproc)"
   },
   "config": {
     "allow-plugins": {

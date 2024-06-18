@@ -21,22 +21,32 @@ final class ShowTitleFixerTest extends FixerTestCase
 
     public static function dataProvider(): iterable
     {
+
         yield [
             '<?=$APPLICATION->ShowTitle() ?>',
             '<?php $APPLICATION->ShowTitle() ?>',
         ];
+
         yield [
             '<?=$APPLICATION -> ShowTitle() ?>',
             '<?php $APPLICATION -> ShowTitle() ?>',
         ];
+
         yield [
             '<?= $APPLICATION->ShowTitle() ?>',
             '<?php $APPLICATION->ShowTitle() ?>',
         ];
+
         yield [
             '<?php echo $APPLICATION->ShowTitle() ?>',
             '<?php $APPLICATION->ShowTitle() ?>',
         ];
+
+        yield [
+            '<?php print $APPLICATION->ShowTitle() ?>',
+            '<?php $APPLICATION->ShowTitle() ?>',
+        ];
+
         yield [
             '<?php
 if ($condition) {
@@ -53,9 +63,11 @@ if ($condition) {
 }
 ?>',
         ];
+
         yield [
             '<?php $APPLICATION->ShowTitle() ?>',
         ];
+
         yield [
             '<?php echo $APPLICATION->
 // comment

@@ -23,12 +23,43 @@ final class IncludeModuleFixerTest extends FixerTestCase
         ];
 
         yield [
-            '<?php 
+            '<?php
 CModule::IncludeModule("main");
 CModule::IncludeModule("iblock");',
-            '<?php 
+            '<?php
 \Bitrix\Main\Loader::includeModule("main");
 \Bitrix\Main\Loader::includeModule("iblock");',
         ];
+
+        yield [
+            '<?php if (CModule::IncludeModule("main") && CModule::IncludeModule("iblock")) {}',
+            '<?php if (\Bitrix\Main\Loader::includeModule("main") && \Bitrix\Main\Loader::includeModule("iblock")) {}'
+        ];
+
+        yield [
+            '<?php \CModule::IncludeModule("main");',
+            '<?php \Bitrix\Main\Loader::includeModule("main");',
+        ];
+
+        yield [
+            '<?php \My\Vendor\CModule::IncludeModule("main");',
+        ];
+
+//        yield [
+//            '<?php
+//use My\Vendor\CModule;
+//
+//CModule::IncludeModule("main");',
+//        ];
+
+//        yield [
+//            '<?php
+//use CModule;
+//
+//CModule::IncludeModule("main");',
+//            '<?php
+//
+//\Bitrix\Main\Loader::includeModule("main");',
+//        ];
     }
 }

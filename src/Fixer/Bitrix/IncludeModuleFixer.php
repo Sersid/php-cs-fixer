@@ -38,16 +38,23 @@ final class IncludeModuleFixer extends AbstractFixer
             );
 
             if ($foundTokens === null) {
-                return;
+                break;
             }
 
             $classNameIndex = (int)array_key_first($foundTokens);
-            $tokens[$classNameIndex] = new Token([T_STRING, '\Bitrix\Main\Loader']);
-
             $methodNameIndex = (int)array_key_last($foundTokens);
-            $tokens[$methodNameIndex] = new Token([T_STRING, 'includeModule']);
-
             $start = $methodNameIndex + 1;
+
+            $prevIndex = $classNameIndex - 1;
+            if ($tokens[$prevIndex]->isGivenKind(T_NS_SEPARATOR)) {
+                if ($tokens[$prevIndex - 1]->isGivenKind(T_STRING)) {
+                    continue;
+                }
+                $tokens->clearAt($prevIndex);
+            }
+
+            $tokens[$classNameIndex] = new Token([T_STRING, '\Bitrix\Main\Loader']);
+            $tokens[$methodNameIndex] = new Token([T_STRING, 'includeModule']);
         }
     }
 

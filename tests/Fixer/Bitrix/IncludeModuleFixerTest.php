@@ -25,15 +25,15 @@ final class IncludeModuleFixerTest extends FixerTestCase
         yield [
             '<?php
 CModule::IncludeModule("main");
-CModule::IncludeModule("iblock");',
+CModule::IncludeModule("sale");',
             '<?php
 \Bitrix\Main\Loader::includeModule("main");
-\Bitrix\Main\Loader::includeModule("iblock");',
+\Bitrix\Main\Loader::includeModule("sale");',
         ];
 
         yield [
-            '<?php if (CModule::IncludeModule("main") && CModule::IncludeModule("iblock")) {}',
-            '<?php if (\Bitrix\Main\Loader::includeModule("main") && \Bitrix\Main\Loader::includeModule("iblock")) {}'
+            '<?php if (CModule::IncludeModule("main") && CModule::IncludeModule("sale")) {}',
+            '<?php if (\Bitrix\Main\Loader::includeModule("main") && \Bitrix\Main\Loader::includeModule("sale")) {}'
         ];
 
         yield [
@@ -45,21 +45,29 @@ CModule::IncludeModule("iblock");',
             '<?php \My\Vendor\CModule::IncludeModule("main");',
         ];
 
-//        yield [
-//            '<?php
-//use My\Vendor\CModule;
-//
-//CModule::IncludeModule("main");',
-//        ];
+        yield [
+            '<?php
+use CModule;
 
-//        yield [
-//            '<?php
-//use CModule;
-//
-//CModule::IncludeModule("main");',
-//            '<?php
-//
-//\Bitrix\Main\Loader::includeModule("main");',
-//        ];
+CModule::IncludeModule("main");',
+            '<?php
+use CModule;
+
+\Bitrix\Main\Loader::includeModule("main");',
+        ];
+
+        yield [
+            '<?php
+use My\Vendor\CModule;
+
+CModule::IncludeModule("main");',
+        ];
+
+        yield [
+            '<?php
+use My\Vendor;
+
+Vendor\CModule::IncludeModule("main");',
+        ];
     }
 }

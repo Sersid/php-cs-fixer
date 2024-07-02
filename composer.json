@@ -12,7 +12,7 @@
   "require": {
     "php": "^8.2",
     "ext-mbstring": "*",
-    "friendsofphp/php-cs-fixer": "^3.54"
+    "friendsofphp/php-cs-fixer": "^3.59"
   },
   "autoload": {
     "psr-4": {

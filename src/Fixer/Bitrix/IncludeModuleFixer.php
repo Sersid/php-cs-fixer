@@ -29,12 +29,14 @@ final class IncludeModuleFixer extends AbstractFixer
     {
         $namespaceUsesAnalyzer = new NamespaceUsesAnalyzer();
         foreach ($tokens->getNamespaceDeclarations() as $namespace) {
-            $uses = [];
-            foreach ($namespaceUsesAnalyzer->getDeclarationsInNamespace($tokens, $namespace, true) as $use) {
-                $uses[$use->getShortName()] = ltrim($use->getFullName(), '\\');
+            foreach ($namespaceUsesAnalyzer->getDeclarationsInNamespace($tokens, $namespace) as $use) {
+                if ($use->getShortName() === 'CModule' && $use->getShortName() !== $use->getFullName()) {
+                    continue 2;
+                }
             }
 
-            $start = 0;
+            $start = $namespace->getScopeStartIndex();
+            $end = $namespace->getScopeEndIndex();
             while (true) {
                 $foundTokens = $tokens->findSequence(
                     [
@@ -42,16 +44,19 @@ final class IncludeModuleFixer extends AbstractFixer
                         new Token([T_DOUBLE_COLON, '::']),
                         new Token([T_STRING, 'IncludeModule']),
                     ],
-                    $start
+                    $start,
+                    $end,
                 );
 
                 if ($foundTokens === null) {
                     break;
                 }
 
-                $classNameIndex = (int)array_key_first($foundTokens);
-                $methodNameIndex = (int)array_key_last($foundTokens);
-                $start = $methodNameIndex + 1;
+                /** @var int $classNameIndex */
+                $classNameIndex = array_key_first($foundTokens);
+                /** @var int $methodNameIndex */
+                $methodNameIndex = array_key_last($foundTokens);
+                $start = $methodNameIndex + 3;
 
                 $prevIndex = $classNameIndex - 1;
                 if ($tokens[$prevIndex]->isGivenKind(T_NS_SEPARATOR)) {
@@ -59,8 +64,6 @@ final class IncludeModuleFixer extends AbstractFixer
                         continue;
                     }
                     $tokens->clearAt($prevIndex);
-                } elseif (isset($uses['CModule']) && $uses['CModule'] !== 'CModule') {
-                    continue;
                 }
 
                 $tokens[$classNameIndex] = new Token([T_STRING, '\Bitrix\Main\Loader']);

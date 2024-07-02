@@ -30,6 +30,7 @@
     "infection/infection": "^0.27.11"
   },
   "scripts": {
+    "test": "phpunit",
     "fixer": "php-cs-fixer --config=.php-cs-fixer.dist.php fix",
     "psalm": "psalm",
     "infection": "infection -j$(nproc)"

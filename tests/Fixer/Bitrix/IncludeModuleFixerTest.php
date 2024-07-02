@@ -44,6 +44,20 @@ CModule::IncludeModule("sale");',
         ];
 
         yield [
+            '<?php if (CModule::IncludeModule("main")&&Loader::includeModule("sale")) {}',
+            '<?php if (\Bitrix\Main\Loader::includeModule("main")&&Loader::includeModule("sale")) {}',
+        ];
+
+        yield [
+            '<?php
+\My\Vendor\CModule::IncludeModule("main");
+CModule::IncludeModule("main");',
+            '<?php
+\My\Vendor\CModule::IncludeModule("main");
+\Bitrix\Main\Loader::includeModule("main");',
+        ];
+
+        yield [
             '<?php \My\Vendor\CModule::IncludeModule("main");',
         ];
 
@@ -67,9 +81,21 @@ CModule::IncludeModule("main");',
 
         yield [
             '<?php
-use My\Vendor;
+namespace My\Vendor {
+    class CModule {
+        public static function IncludeModule(string $module) {}
+    }
+}
 
-Vendor\CModule::IncludeModule("main");',
+namespace Test {
+    use My\Vendor\CModule;
+
+    class Foo {
+        public function __construct() {
+            CModule::IncludeModule("main");
+        }
+    }
+}',
         ];
     }
 }
